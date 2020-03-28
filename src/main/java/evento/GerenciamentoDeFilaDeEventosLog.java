@@ -18,7 +18,7 @@ final class GerenciamentoDeFilaDeEventosLog extends GerenciamentoDeFilaDeEventos
 
     @Override
     protected <T> void eventoNaoExecutado(final T objeto, final Evento<T> evento) {
-        log.error("Nao foi possivel finalizar execucao do evento %s. Tentarei novamente", evento);
+        log.error("Nao foi possivel finalizar execucao do evento %s com objeto : %s. Tentarei novamente", evento, objeto);
         super.eventoNaoExecutado(objeto, evento);
     }
 

@@ -41,6 +41,8 @@ public class Main {
 
         final Evento<String> eventoTela = (objeto, eventoMalSucedido) -> {
 
+            LOG_EVENTO.info("INICIANDO");
+
             IntStream
                     .range(0, 3)
                     .forEach(value -> LOG_EVENTO.info(objeto));
