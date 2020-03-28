@@ -16,6 +16,7 @@ final class ExecutorJava implements ExecutorTarefa {
 
     @Override
     public void executar(final Runnable runnable) {
+        logEvento.info("executando");
         executor.execute(runnable);
     }
 
