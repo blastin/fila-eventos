@@ -23,7 +23,7 @@ public class Main {
 
         final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(5, TimeUnit.SECONDS);
 
-        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasPadrao.criar(executor);
+        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasPadrao.criar(null);
 
         final FilaDeEventos filaDeEventos = filaDeEventosFabrica
                 .agenda(agendaParaCasoNaoSucesso)

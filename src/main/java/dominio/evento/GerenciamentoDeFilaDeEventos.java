@@ -4,11 +4,9 @@ import java.util.Optional;
 
 abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
 
-    private final ExecutorTarefa executorTarefa;
-
-    private Agenda agendaParaEventoNaoSucedido;
-
     static final AgendaNula AGENDA_NULA = new AgendaNula();
+    private final ExecutorTarefa executorTarefa;
+    private Agenda agendaParaEventoNaoSucedido;
 
     protected GerenciamentoDeFilaDeEventos(final ExecutorTarefa executorTarefa) {
         this.executorTarefa = executorTarefa;

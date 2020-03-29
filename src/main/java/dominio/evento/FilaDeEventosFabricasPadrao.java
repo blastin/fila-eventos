@@ -5,9 +5,7 @@ import java.util.Optional;
 public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
 
     private final ExecutorTarefa executorTarefaProxy;
-
     private GerenciamentoDeFilaDeEventos gerenciamentoDeFilaDeEventos;
-
     private Agenda agendaParaEventoNaoSucedido;
 
     private FilaDeEventosFabricasPadrao(final ExecutorTarefa executorTarefa) {
@@ -16,7 +14,8 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
     }
 
     public static FilaDeEventosFabrica criar(final ExecutorTarefa executorTarefa) {
-        return new FilaDeEventosFabricasPadrao(executorTarefa);
+        final ExecutorTarefa executorTarefaSeguro = Optional.ofNullable(executorTarefa).orElse(new ExecutorTarefaNulo());
+        return new FilaDeEventosFabricasPadrao(executorTarefaSeguro);
     }
 
     @Override
@@ -27,7 +26,8 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
 
     @Override
     public FilaDeEventosFabrica log(final LogEvento logEvento) {
-        gerenciamentoDeFilaDeEventos = new GerenciamentoDeFilaDeEventosLog(executorTarefaProxy, logEvento);
+        final LogEvento logEventoSeguro = Optional.ofNullable(logEvento).orElse(new LogEventoNulo());
+        gerenciamentoDeFilaDeEventos = new GerenciamentoDeFilaDeEventosLog(executorTarefaProxy, logEventoSeguro);
         return this;
     }
 
@@ -44,6 +44,30 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
         GerenciamentoDeFilaDeEventosWrapper(final ExecutorTarefa executorTarefa) {
             super(executorTarefa);
         }
+    }
+
+    private static class LogEventoNulo implements LogEvento {
+
+        @Override
+        public void info(final String mensagem, final Object... argumentos) {
+        }
+
+        @Override
+        public void error(final String mensagem, final Object... argumentos) {
+        }
+
+    }
+
+    private static class ExecutorTarefaNulo implements ExecutorTarefa {
+
+        @Override
+        public void executar(final Runnable runnable) {
+        }
+
+        @Override
+        public void agendar(final Runnable runnable, final Agenda agenda) {
+        }
+
     }
 
 }
