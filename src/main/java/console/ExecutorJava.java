@@ -1,6 +1,8 @@
-import evento.Agenda;
-import evento.ExecutorTarefa;
-import evento.LogEvento;
+package console;
+
+import dominio.evento.Agenda;
+import dominio.evento.ExecutorTarefa;
+import dominio.evento.LogEvento;
 
 import java.util.concurrent.ScheduledExecutorService;
 

@@ -1,7 +1,7 @@
+package console;
 
-import evento.*;
+import dominio.evento.*;
 
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,11 +21,14 @@ public class Main {
 
         final ExecutorTarefa executor = new ExecutorJava(scheduledExecutorService, LOG_EVENTO);
 
-        final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(10, TimeUnit.SECONDS);
+        final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(5, TimeUnit.SECONDS);
 
-        final FilaDeEventosDecorado filaDeEventos =
-                FilaDeEventosFabrica
-                        .construir(LOG_EVENTO, executor, agendaParaCasoNaoSucesso);
+        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasPadrao.criar(executor);
+
+        final FilaDeEventos filaDeEventos = filaDeEventosFabrica
+                .agenda(agendaParaCasoNaoSucesso)
+                .log(LOG_EVENTO)
+                .construir();
 
         new Main()
                 .iniciar(filaDeEventos)
@@ -33,7 +36,7 @@ public class Main {
 
     }
 
-    private Main iniciar(final FilaDeEventosDecorado filaDeEventos) {
+    private Main iniciar(final FilaDeEventos filaDeEventos) {
 
         final EscreverArquivo escreverArquivo = new EscreverArquivo(LOG_EVENTO);
 
@@ -58,13 +61,12 @@ public class Main {
         };
 
         filaDeEventos
-                .disparaTodos(
-                        Map.of(
-                                "Oasis", eventoTela,
-                                "The Smiths", eventoTela,
-                                "Legiao Urbana", eventoTela))
+                .dispara("The Smiths", eventoTela)
+                .dispara("Legiao Urbana", eventoTela)
                 .dispara(2, escreverArquivo)
-                .dispara("Doom", eventoTela);
+                .dispara("Doom", eventoTela)
+                .dispara("The Stones Roses", eventoTela)
+                .dispara("Musica : I Wanna Be Adored", eventoTela);
 
         LOG_EVENTO.info("fim");
 
@@ -74,7 +76,7 @@ public class Main {
 
     private void finalizar(final ExecutorService executorService) throws InterruptedException {
 
-        executorService.awaitTermination(60, TimeUnit.SECONDS);
+        executorService.awaitTermination(15, TimeUnit.SECONDS);
 
         executorService.shutdown();
 

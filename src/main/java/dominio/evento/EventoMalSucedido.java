@@ -1,4 +1,4 @@
-package evento;
+package dominio.evento;
 
 @FunctionalInterface
 public interface EventoMalSucedido<T> {

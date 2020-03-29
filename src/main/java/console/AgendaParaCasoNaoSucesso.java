@@ -1,4 +1,6 @@
-import evento.Agenda;
+package console;
+
+import dominio.evento.Agenda;
 
 import java.util.concurrent.TimeUnit;
 

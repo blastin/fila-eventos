@@ -1,6 +1,6 @@
-package evento;
+package dominio.evento;
 
-import anotacoes.Adaptador;
+import dominio.anotacoes.Adaptador;
 
 import java.util.concurrent.TimeUnit;
 

@@ -1,5 +1,8 @@
-package evento;
+package dominio.evento;
 
+import dominio.anotacoes.Plugin;
+
+@Plugin
 final class ExecutorTarefaProxy implements ExecutorTarefa {
 
     private final ExecutorTarefa executorTarefa;

@@ -1,4 +1,4 @@
-package evento;
+package dominio.evento;
 
 final class FilaDeEventosProxy implements FilaDeEventos {
 
@@ -12,7 +12,7 @@ final class FilaDeEventosProxy implements FilaDeEventos {
     public <T> FilaDeEventos dispara(final T objeto, final Evento<T> evento) {
 
         if (objeto == null || evento == null) {
-            throw new EventoException("Objeto e/ou evento nulo");
+            throw new EventoException("Objeto e/ou dominio.evento nulo");
         }
 
         return gerenciamentoDeFilaDeEventos.dispara(objeto, evento);

@@ -1,4 +1,4 @@
-package evento;
+package dominio.evento;
 
 public final class EventoException extends RuntimeException {
 

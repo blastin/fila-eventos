@@ -1,7 +1,9 @@
-import evento.Evento;
-import evento.EventoException;
-import evento.EventoMalSucedido;
-import evento.LogEvento;
+package console;
+
+import dominio.evento.Evento;
+import dominio.evento.EventoException;
+import dominio.evento.EventoMalSucedido;
+import dominio.evento.LogEvento;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;

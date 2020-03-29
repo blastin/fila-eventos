@@ -1,6 +1,6 @@
-package evento;
+package dominio.evento;
 
-import anotacoes.Plugin;
+import dominio.anotacoes.Plugin;
 
 @Plugin
 public interface Evento<T> {
