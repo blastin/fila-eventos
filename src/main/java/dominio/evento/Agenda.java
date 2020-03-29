@@ -11,7 +11,7 @@ public interface Agenda {
     long tempo();
 
     /**
-     * @return TimeUnit adaptado. Caso seja nulo, retornara TimeUNIT.NANOSeconds
+     * @return TimeUnit adaptado. Caso seja nulo, retornara TimeUNIT.NANOSECONDS
      */
     TimeUnit unidadeTempo();
 

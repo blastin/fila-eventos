@@ -22,7 +22,7 @@ final class AgendaParaCasoNaoSucesso implements Agenda {
 
     @Override
     public TimeUnit unidadeTempo() {
-        return null;
+        return unidade;
     }
 
 }

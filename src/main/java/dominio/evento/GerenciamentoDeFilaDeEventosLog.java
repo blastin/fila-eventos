@@ -13,14 +13,13 @@ final class GerenciamentoDeFilaDeEventosLog extends GerenciamentoDeFilaDeEventos
     }
 
     @Override
-    public <T> GerenciamentoDeFilaDeEventos dispara(final T objeto, final Evento<T> evento) {
-        log.info("Despachando dominio.evento %s para objeto -> %s", evento, objeto);
-        super.dispara(objeto, evento);
-        return this;
+    public <T> FilaDeEventos dispara(final T objeto, final Evento<T> evento) {
+        log.info("Despachando evento <%s> com objeto <%s>", evento, objeto);
+        return super.dispara(objeto, evento);
     }
 
     @Override
-    public <T> void eventoNaoExecutado(final T objeto, final Evento<T> evento) {
+    protected <T> void eventoNaoExecutado(final T objeto, final Evento<T> evento) {
         log.error("Nao foi possivel finalizar execucao do dominio.evento %s com objeto : %s. Tentarei novamente", evento, objeto);
         super.eventoNaoExecutado(objeto, evento);
     }
