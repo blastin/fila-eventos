@@ -20,7 +20,7 @@ abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
         return executar(objeto, evento, null);
     }
 
-    public final void adicionarAgenda(final Agenda agendaParaEventoNaoSucedido) {
+    final void adicionarAgenda(final Agenda agendaParaEventoNaoSucedido) {
         this.agendaParaEventoNaoSucedido = agendaParaEventoNaoSucedido;
     }
 
