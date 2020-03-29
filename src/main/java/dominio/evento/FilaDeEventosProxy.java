@@ -9,13 +9,13 @@ final class FilaDeEventosProxy implements FilaDeEventos {
     }
 
     @Override
-    public <T> FilaDeEventos dispara(final T objeto, final Evento<T> evento) {
+    public <T> FilaDeEventos disparar(final T objeto, final Evento<T> evento) {
 
         if (objeto == null || evento == null) {
             throw new EventoException("Objeto e/ou dominio.evento nulo");
         }
 
-        return gerenciamentoDeFilaDeEventos.dispara(objeto, evento);
+        return gerenciamentoDeFilaDeEventos.disparar(objeto, evento);
 
     }
 }

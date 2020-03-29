@@ -13,9 +13,9 @@ final class GerenciamentoDeFilaDeEventosLog extends GerenciamentoDeFilaDeEventos
     }
 
     @Override
-    public <T> FilaDeEventos dispara(final T objeto, final Evento<T> evento) {
+    public <T> FilaDeEventos disparar(final T objeto, final Evento<T> evento) {
         log.info("Despachando evento <{}> com objeto <{}>", evento, objeto);
-        return super.dispara(objeto, evento);
+        return super.disparar(objeto, evento);
     }
 
     @Override

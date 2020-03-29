@@ -56,18 +56,18 @@ public class Main {
             if (i <= 3) {
                 LOG_EVENTO.info("entrei uma vez pois {}", i);
                 eventoMalSucedido.notificar(objeto.concat(String.valueOf(i)));
-                filaDeEventos.dispara("Tentanto novamente", LOG_EVENTO::info);
+                filaDeEventos.disparar("Tentanto novamente", LOG_EVENTO::info);
             }
 
         };
 
         filaDeEventos
-                .dispara("The Smiths", eventoTela)
-                .dispara("Legiao Urbana", eventoTela)
-                .dispara(2, escreverArquivo)
-                .dispara("Doom", eventoTela)
-                .dispara("The Stones Roses", eventoTela)
-                .dispara("Musica : I Wanna Be Adored", eventoTela);
+                .disparar("The Smiths", eventoTela)
+                .disparar("Legiao Urbana", eventoTela)
+                .disparar(2, escreverArquivo)
+                .disparar("Doom", eventoTela)
+                .disparar("The Stones Roses", eventoTela)
+                .disparar("Musica : I Wanna Be Adored", eventoTela);
 
         LOG_EVENTO.info("fim");
 

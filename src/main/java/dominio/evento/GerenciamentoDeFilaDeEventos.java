@@ -10,7 +10,7 @@ abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
     }
 
     @Override
-    public <T> FilaDeEventos dispara(final T objeto, final Evento<T> evento) {
+    public <T> FilaDeEventos disparar(final T objeto, final Evento<T> evento) {
         return executar(objeto, evento, null);
     }
 
