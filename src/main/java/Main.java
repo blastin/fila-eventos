@@ -33,7 +33,7 @@ public class Main {
 
     }
 
-    public Main iniciar(final FilaDeEventosDecorado filaDeEventos) {
+    private Main iniciar(final FilaDeEventosDecorado filaDeEventos) {
 
         final EscreverArquivo escreverArquivo = new EscreverArquivo(LOG_EVENTO);
 
@@ -51,7 +51,7 @@ public class Main {
 
             if (i <= 3) {
                 LOG_EVENTO.info("entrei uma vez pois %d", i);
-                eventoMalSucedido.notificar(objeto);
+                eventoMalSucedido.notificar(objeto.concat(String.valueOf(i)));
                 filaDeEventos.dispara("Tentanto novamente", LOG_EVENTO::info);
             }
 
@@ -72,9 +72,9 @@ public class Main {
 
     }
 
-    public void finalizar(final ExecutorService executorService) throws InterruptedException {
+    private void finalizar(final ExecutorService executorService) throws InterruptedException {
 
-        executorService.awaitTermination(35, TimeUnit.SECONDS);
+        executorService.awaitTermination(60, TimeUnit.SECONDS);
 
         executorService.shutdown();
 

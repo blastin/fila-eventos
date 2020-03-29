@@ -1,5 +1,7 @@
 package evento;
 
+import java.util.Optional;
+
 abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
 
     private final ExecutorTarefa executorTarefa;
@@ -22,7 +24,7 @@ abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
                         () -> evento
                                 .executar(
                                         objeto,
-                                        o -> eventoNaoExecutado(objeto, evento)
+                                        o -> eventoNaoExecutado(Optional.ofNullable(o).orElse(objeto), evento)
                                 ),
                         agenda
                 );

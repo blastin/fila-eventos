@@ -5,6 +5,6 @@ import anotacoes.Plugin;
 @Plugin
 public interface Evento<T> {
 
-    void executar(final T objeto, final EventoMalSucedido<? super T> eventoMalSucedido) throws EventoException;
+    void executar(final T objeto, final EventoMalSucedido<T> eventoMalSucedido) throws EventoException;
 
 }

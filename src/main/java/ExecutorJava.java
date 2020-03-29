@@ -9,7 +9,7 @@ final class ExecutorJava implements ExecutorTarefa {
     private final ScheduledExecutorService executor;
     private final LogEvento logEvento;
 
-    public ExecutorJava(final ScheduledExecutorService executor, final LogEvento logEvento) {
+    ExecutorJava(final ScheduledExecutorService executor, final LogEvento logEvento) {
         this.executor = executor;
         this.logEvento = logEvento;
     }

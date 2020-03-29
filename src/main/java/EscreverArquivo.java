@@ -20,7 +20,7 @@ final class EscreverArquivo implements Evento<Integer> {
     }
 
     @Override
-    public void executar(final Integer objeto, final EventoMalSucedido<? super Integer> eventoMalSucedido) throws EventoException {
+    public void executar(final Integer objeto, final EventoMalSucedido<Integer> eventoMalSucedido) throws EventoException {
 
         logEvento.info("salvando");
 
