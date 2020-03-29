@@ -54,7 +54,7 @@ public class Main {
             final int i = atomicInteger.getAndAdd(1);
 
             if (i <= 3) {
-                LOG_EVENTO.info("entrei uma vez pois %d", i);
+                LOG_EVENTO.info("entrei uma vez pois {}", i);
                 eventoMalSucedido.notificar(objeto.concat(String.valueOf(i)));
                 filaDeEventos.dispara("Tentanto novamente", LOG_EVENTO::info);
             }

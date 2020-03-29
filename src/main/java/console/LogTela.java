@@ -2,9 +2,11 @@ package console;
 
 import dominio.evento.LogEvento;
 
+import java.util.regex.Pattern;
+
 final class LogTela implements LogEvento {
 
-    public LogTela() {
+    LogTela() {
     }
 
     @Override
@@ -12,7 +14,9 @@ final class LogTela implements LogEvento {
 
         Thread currentThread = Thread.currentThread();
 
-        System.out.println(mensagemPadrao(currentThread) + String.format(mensagem, argumentos));
+        String construcao = construir(mensagem, argumentos);
+
+        System.out.println(mensagemPadrao(currentThread) + construcao);
 
     }
 
@@ -21,7 +25,18 @@ final class LogTela implements LogEvento {
 
         Thread currentThread = Thread.currentThread();
 
-        System.err.println(mensagemPadrao(currentThread) + String.format(mensagem, argumentos));
+        String construcao = construir(mensagem, argumentos);
+
+        System.err.println(mensagemPadrao(currentThread) + construcao);
+
+    }
+
+
+    private String construir(final String mensagem, final Object[] argumentos) {
+
+        final String mensagemCopia = mensagem.replaceAll(Pattern.quote("{}"), "%s");
+
+        return String.format(mensagemCopia, argumentos);
 
     }
 
@@ -30,6 +45,7 @@ final class LogTela implements LogEvento {
         final String className = Thread.currentThread().getStackTrace()[3].getClassName();
 
         return className + "::Thread<" + currentThread.getId() + "> -> ";
+
     }
 
 }
