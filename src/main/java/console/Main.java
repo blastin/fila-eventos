@@ -21,14 +21,15 @@ public class Main {
 
         final ExecutorTarefa executor = new ExecutorJava(scheduledExecutorService, LOG_EVENTO);
 
-        final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(5, TimeUnit.SECONDS);
+        final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(2, TimeUnit.SECONDS);
 
-        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasPadrao.criar(null);
+        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasPadrao.criar(executor);
 
-        final FilaDeEventos filaDeEventos = filaDeEventosFabrica
-                .agenda(agendaParaCasoNaoSucesso)
-                .log(LOG_EVENTO)
-                .construir();
+        final FilaDeEventos filaDeEventos =
+                filaDeEventosFabrica
+                        .log(LOG_EVENTO)
+                        .agenda(agendaParaCasoNaoSucesso)
+                        .construir();
 
         new Main()
                 .iniciar(filaDeEventos)

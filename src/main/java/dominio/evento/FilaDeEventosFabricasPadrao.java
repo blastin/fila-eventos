@@ -1,6 +1,7 @@
 package dominio.evento;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
 
@@ -20,7 +21,7 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
 
     @Override
     public FilaDeEventos construir() {
-        gerenciamentoDeFilaDeEventos.adicionarAgenda(agendaParaEventoNaoSucedido);
+        gerenciamentoDeFilaDeEventos.adicionarAgenda(new AgendaProxy(agendaParaEventoNaoSucedido));
         return new FilaDeEventosProxy(gerenciamentoDeFilaDeEventos);
     }
 
@@ -33,14 +34,11 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
 
     @Override
     public FilaDeEventosFabrica agenda(final Agenda agendaParaEventoNaoSucedido) {
-        this.agendaParaEventoNaoSucedido =
-                Optional
-                        .ofNullable(agendaParaEventoNaoSucedido)
-                        .orElse(GerenciamentoDeFilaDeEventos.AGENDA_NULA);
+        this.agendaParaEventoNaoSucedido = Optional.ofNullable(agendaParaEventoNaoSucedido).orElse(new AgendaNulo());
         return this;
     }
 
-    private static final class GerenciamentoDeFilaDeEventosWrapper extends GerenciamentoDeFilaDeEventos {
+    private static class GerenciamentoDeFilaDeEventosWrapper extends GerenciamentoDeFilaDeEventos {
         GerenciamentoDeFilaDeEventosWrapper(final ExecutorTarefa executorTarefa) {
             super(executorTarefa);
         }
@@ -70,4 +68,16 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
 
     }
 
+    private static class AgendaNulo implements Agenda {
+
+        @Override
+        public long tempo() {
+            return 0;
+        }
+
+        @Override
+        public TimeUnit unidadeTempo() {
+            return null;
+        }
+    }
 }

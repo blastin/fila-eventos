@@ -1,16 +1,12 @@
 package dominio.evento;
 
-import java.util.Optional;
-
 abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
 
-    static final AgendaNula AGENDA_NULA = new AgendaNula();
     private final ExecutorTarefa executorTarefa;
     private Agenda agendaParaEventoNaoSucedido;
 
     protected GerenciamentoDeFilaDeEventos(final ExecutorTarefa executorTarefa) {
         this.executorTarefa = executorTarefa;
-        agendaParaEventoNaoSucedido = AGENDA_NULA;
     }
 
     @Override
@@ -26,17 +22,21 @@ abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
         executar(objeto, evento, agendaParaEventoNaoSucedido);
     }
 
-    private <T> FilaDeEventos executar(final T objeto, final Evento<T> evento, final Agenda agenda) {
+    private <T> FilaDeEventos executar(final T objetoRecebido, final Evento<T> evento, final Agenda agenda) {
         executorTarefa
                 .agendar(
                         () -> evento
                                 .executar(
-                                        objeto,
-                                        o -> eventoNaoExecutado(Optional.ofNullable(o).orElse(objeto), evento)
+                                        objetoRecebido,
+                                        objetoAtual -> eventoNaoExecutado(objetos(objetoRecebido, objetoAtual), evento)
                                 ),
                         agenda
                 );
         return this;
+    }
+
+    private static <T> T objetos(final T objetoRecebido, final T objetoAtual) {
+        return objetoAtual == null ? objetoRecebido : objetoAtual;
     }
 
 }
