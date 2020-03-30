@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class FilaDeEventosTest {
+final class FilaDeEventosTest {
 
     private final AgendaParaTeste agendaParaEventoNaoSucedido = new AgendaParaTeste(1, TimeUnit.MILLISECONDS);
+
     private final LogParaTeste logParaTeste = new LogParaTeste();
 
     @Test

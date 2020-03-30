@@ -12,13 +12,21 @@ final class EventoChecagem implements Evento<String> {
 
     @Override
     public void executar(final String objeto, final EventoMalSucedido<String> eventoMalSucedido) throws EventoException {
+
         recebiChamado = true;
+
         if (objeto.isEmpty()) {
+
             logEvento.info("Vou reagenda");
+
             eventoMalSucedido.notificar("objeto não pode ser vazio");
+
         } else {
+
             logEvento.info("Evento concluido");
+
             mensagem = objeto;
+
         }
     }
 
