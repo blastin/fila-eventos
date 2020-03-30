@@ -1,12 +1,12 @@
 package console;
 
 import dominio.evento.Agenda;
-import dominio.evento.ExecutorTarefa;
+import dominio.evento.ExecutorEvento;
 import dominio.evento.LogEvento;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-final class ExecutorJava implements ExecutorTarefa {
+final class ExecutorJava implements ExecutorEvento {
 
     private final ScheduledExecutorService executor;
     private final LogEvento logEvento;

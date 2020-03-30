@@ -7,8 +7,8 @@ final class GerenciamentoDeFilaDeEventosLog extends GerenciamentoDeFilaDeEventos
 
     private final LogEvento log;
 
-    GerenciamentoDeFilaDeEventosLog(final ExecutorTarefa executorTarefa, final LogEvento log) {
-        super(executorTarefa);
+    GerenciamentoDeFilaDeEventosLog(final ExecutorEvento executorEvento, final LogEvento log) {
+        super(executorEvento);
         this.log = log;
     }
 

@@ -19,7 +19,7 @@ public class Main {
                 Executors
                         .newScheduledThreadPool(3);
 
-        final ExecutorTarefa executor = new ExecutorJava(scheduledExecutorService, LOG_EVENTO);
+        final ExecutorEvento executor = new ExecutorJava(scheduledExecutorService, LOG_EVENTO);
 
         final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(2, TimeUnit.SECONDS);
 

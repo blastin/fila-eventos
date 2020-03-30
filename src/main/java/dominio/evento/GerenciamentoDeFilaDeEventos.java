@@ -2,11 +2,11 @@ package dominio.evento;
 
 abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
 
-    private final ExecutorTarefa executorTarefa;
+    private final ExecutorEvento executorEvento;
     private Agenda agendaParaEventoNaoSucedido;
 
-    protected GerenciamentoDeFilaDeEventos(final ExecutorTarefa executorTarefa) {
-        this.executorTarefa = executorTarefa;
+    protected GerenciamentoDeFilaDeEventos(final ExecutorEvento executorEvento) {
+        this.executorEvento = executorEvento;
     }
 
     @Override
@@ -23,7 +23,7 @@ abstract class GerenciamentoDeFilaDeEventos implements FilaDeEventos {
     }
 
     private <T> FilaDeEventos executar(final T objetoRecebido, final Evento<T> evento, final Agenda agenda) {
-        executorTarefa
+        executorEvento
                 .agendar(
                         () -> evento
                                 .executar(

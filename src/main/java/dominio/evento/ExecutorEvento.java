@@ -3,7 +3,7 @@ package dominio.evento;
 import dominio.anotacoes.Plugin;
 
 @Plugin
-public interface ExecutorTarefa {
+public interface ExecutorEvento {
 
     void executar(final Runnable runnable);
 
