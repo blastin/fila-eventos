@@ -1,0 +1,22 @@
+image: adoptopenjdk/openjdk11-openj9:alpine
+
+stages:
+  - build
+  - test
+  - image
+  - deploy
+
+variables:
+  MAVEN_CLI_OPTS: -s .m2/settings.xml --batch-mode
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+  JAVA_TOOL_OPTIONS: -Xmx300m
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/*.jar
+
+test:
+  stage: test
+  script:
+    - ./mvnw test
