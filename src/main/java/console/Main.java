@@ -21,14 +21,17 @@ public class Main {
 
         final ExecutorEvento executor = new ExecutorJava(scheduledExecutorService, LOG_EVENTO);
 
-        final Agenda agendaParaCasoNaoSucesso = new AgendaParaCasoNaoSucesso(2, TimeUnit.SECONDS);
+        final Agenda agendaParaCasoNaoSucesso = new AgendaParaConsole(8, TimeUnit.SECONDS);
 
-        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasPadrao.criar(executor);
+        final Agenda agendaDisparoDeEvento = new AgendaParaConsole(4, TimeUnit.SECONDS);
+
+        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasImplementacao.criar(executor);
 
         final FilaDeEventos filaDeEventos =
                 filaDeEventosFabrica
                         .log(LOG_EVENTO)
-                        .agenda(agendaParaCasoNaoSucesso)
+                        .agendaParaDispararEvento(agendaDisparoDeEvento)
+                        .agendaParaEventoNaoSucedido(agendaParaCasoNaoSucesso)
                         .construir();
 
         new Main()
@@ -62,10 +65,13 @@ public class Main {
         };
 
         filaDeEventos
-                .disparar("The Smiths", eventoTela)
-                .disparar("Legiao Urbana", eventoTela)
+                .disparar("The Smiths", (objeto, __) -> LOG_EVENTO.info(objeto, ""))
+                .disparar("Legiao Urbana", (objeto, eventoMalSucedido) -> {
+                    LOG_EVENTO.info("Modo funcional");
+                    LOG_EVENTO.info(objeto);
+                })
                 .disparar(2, escreverArquivo)
-                .disparar("Doom", eventoTela)
+                .disparar("Doom", (objeto, eventoMalSucedido) -> System.out.println(objeto))
                 .disparar("The Stones Roses", eventoTela)
                 .disparar("Musica : I Wanna Be Adored", eventoTela);
 
@@ -77,7 +83,7 @@ public class Main {
 
     private void finalizar(final ExecutorService executorService) throws InterruptedException {
 
-        executorService.awaitTermination(15, TimeUnit.SECONDS);
+        executorService.awaitTermination(16, TimeUnit.SECONDS);
 
         executorService.shutdown();
 

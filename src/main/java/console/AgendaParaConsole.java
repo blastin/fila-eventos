@@ -4,13 +4,13 @@ import dominio.evento.Agenda;
 
 import java.util.concurrent.TimeUnit;
 
-final class AgendaParaCasoNaoSucesso implements Agenda {
+final class AgendaParaConsole implements Agenda {
 
     private final long valorTempoParaIniciar;
 
     private final TimeUnit unidade;
 
-    AgendaParaCasoNaoSucesso(final long valorTempoParaIniciar, final TimeUnit unidade) {
+    AgendaParaConsole(final long valorTempoParaIniciar, final TimeUnit unidade) {
         this.valorTempoParaIniciar = valorTempoParaIniciar;
         this.unidade = unidade;
     }

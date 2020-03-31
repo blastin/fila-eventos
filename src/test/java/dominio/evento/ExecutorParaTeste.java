@@ -26,7 +26,6 @@ final class ExecutorParaTeste implements ExecutorEvento {
         }
     }
 
-
     void esperarFinalizar() throws InterruptedException {
         thread.join();
     }

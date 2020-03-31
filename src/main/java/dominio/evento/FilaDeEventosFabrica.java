@@ -1,12 +1,13 @@
 package dominio.evento;
 
-
 public interface FilaDeEventosFabrica {
 
     FilaDeEventos construir();
 
-    FilaDeEventosFabrica log(LogEvento logEvento);
+    FilaDeEventosFabrica log(final LogEvento logEvento);
 
-    FilaDeEventosFabrica agenda(Agenda agendaParaEventoNaoSucedido);
+    FilaDeEventosFabrica agendaParaEventoNaoSucedido(final Agenda agendaParaEventoNaoSucedido);
+
+    FilaDeEventosFabrica agendaParaDispararEvento(final Agenda agendaParaEventoNormal);
 
 }
