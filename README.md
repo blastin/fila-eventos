@@ -247,7 +247,17 @@ Abaixo um exemplo de construção de uma fila de evento e disparo.
 
 ```java
 
-import dominio.evento.Evento;import dominio.evento.FilaDeEventos;import dominio.evento.LogEvento;import org.w3c.dom.events.Event;import java.time.LocalTime;import java.util.concurrent.TimeUnit;
+import dominio.evento.Evento;
+import dominio.evento.FilaDeEventos;
+import dominio.evento.LogEvento;
+import dominio.evento.ExecutorEvento;
+
+import java.time.LocalTime;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 class Console {
 
