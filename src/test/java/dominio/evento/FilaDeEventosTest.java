@@ -9,7 +9,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 final class FilaDeEventosTest {
 
-    private final AgendaParaTeste agendaParaEventoNaoSucedido = new AgendaParaTeste(1, TimeUnit.MILLISECONDS);
+    private final AgendaParaTeste agendaParaEventoNaoSucedido = new AgendaParaTeste(10, TimeUnit.MILLISECONDS);
+
+    private final AgendaParaTeste agendaParaDispararEvento = new AgendaParaTeste(1, TimeUnit.MILLISECONDS);
 
     private final LogParaTeste logParaTeste = new LogParaTeste();
 
@@ -20,9 +22,98 @@ final class FilaDeEventosTest {
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
+                        .log(logParaTeste)
+                        .construir();
+
+        final Gladiador gladiador = new Gladiador(1, 100, 100);
+
+        final EventoChamadaGladiador eventoChamadaGladiador = new EventoChamadaGladiador(logParaTeste);
+
+        filaDeEventos.disparar(gladiador, eventoChamadaGladiador);
+
+        executorTarefa
+                .esperarFinalizar();
+
+        Assertions.assertTrue(eventoChamadaGladiador.chamadoRecebido(), "evento deve ter sido chamado");
+
+        Assertions.assertTrue(executorTarefa.execucaoFoiRecebida());
+        Assertions.assertFalse(executorTarefa.agendaFoiRecebida());
+
+    }
+
+    @Test
+    @DisplayName("Disparar evento gladiador com muita honra")
+    public void dispararEventoParaGladiadorComMuitaHonraComAgendaDisparoEvento() throws InterruptedException {
+
+        final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
+
+        final FilaDeEventos filaDeEventos =
+                FilaDeEventosFabricasImplementacao
+                        .criar(executorTarefa)
+                        .agendaParaDispararEvento(agendaParaDispararEvento)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
+                        .log(logParaTeste)
+                        .construir();
+
+        final Gladiador gladiador = new Gladiador(1, 100, 100);
+
+        final EventoChamadaGladiador eventoChamadaGladiador = new EventoChamadaGladiador(logParaTeste);
+
+        filaDeEventos.disparar(gladiador, eventoChamadaGladiador);
+
+        executorTarefa
+                .esperarFinalizar();
+
+        Assertions.assertTrue(eventoChamadaGladiador.chamadoRecebido(), "evento deve ter sido chamado");
+
+        Assertions.assertTrue(executorTarefa.execucaoFoiRecebida());
+        Assertions.assertTrue(executorTarefa.agendaFoiRecebida());
+
+    }
+
+    @Test
+    @DisplayName("Disparar evento gladiador com muita honra com agenda de disparo de evento nula")
+    public void dispararEventoParaGladiadorComMuitaHonraComAgendaDeDisparoDeEventoNula() throws InterruptedException {
+
+        final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
+
+        final FilaDeEventos filaDeEventos =
+                FilaDeEventosFabricasImplementacao
+                        .criar(executorTarefa)
+                        .agendaParaDispararEvento(null)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
+                        .log(logParaTeste)
+                        .construir();
+
+        final Gladiador gladiador = new Gladiador(1, 100, 100);
+
+        final EventoChamadaGladiador eventoChamadaGladiador = new EventoChamadaGladiador(logParaTeste);
+
+        filaDeEventos.disparar(gladiador, eventoChamadaGladiador);
+
+        executorTarefa
+                .esperarFinalizar();
+
+        Assertions.assertTrue(eventoChamadaGladiador.chamadoRecebido(), "evento deve ter sido chamado");
+
+        Assertions.assertTrue(executorTarefa.execucaoFoiRecebida());
+        Assertions.assertFalse(executorTarefa.agendaFoiRecebida());
+
+    }
+
+    @Test
+    @DisplayName("Disparar evento gladiador com muita honra sem agenda de disparo de evento")
+    public void dispararEventoParaGladiadorComMuitaHonraSemAgendaDeDisparoDeEvento() throws InterruptedException {
+
+        final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
+
+        final FilaDeEventos filaDeEventos =
+                FilaDeEventosFabricasImplementacao
+                        .criar(executorTarefa)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .log(logParaTeste)
                         .construir();
 
@@ -49,9 +140,9 @@ final class FilaDeEventosTest {
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .log(logParaTeste)
                         .construir();
 
@@ -72,13 +163,107 @@ final class FilaDeEventosTest {
     }
 
     @Test
+    @DisplayName("Disparar evento gladiador com pouca honra para agenda de evento nao sucedido com unidade de tempo igual a null")
+    public void dispararEventoGladiadorComPoucaHonraParaAgendaDeEventoNaoSucedidoComUnidadeDeTempoNulo() throws InterruptedException {
+
+        final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
+
+        final Agenda agendaComUnidadeTempoNula = new AgendaParaTeste(2, null);
+
+        final FilaDeEventos filaDeEventos =
+                FilaDeEventosFabricasImplementacao
+                        .criar(executorTarefa)
+                        .agendaParaEventoNaoSucedido(agendaComUnidadeTempoNula)
+                        .log(logParaTeste)
+                        .construir();
+
+        final Gladiador gladiador = new Gladiador(1, 10, 100);
+
+        final EventoChamadaGladiador eventoChamadaGladiador = new EventoChamadaGladiador(logParaTeste);
+
+        filaDeEventos.disparar(gladiador, eventoChamadaGladiador);
+
+        executorTarefa
+                .esperarFinalizar();
+
+        Assertions.assertTrue(eventoChamadaGladiador.chamadoRecebido(), "evento deve ter sido chamado");
+
+        Assertions.assertTrue(executorTarefa.execucaoFoiRecebida());
+        Assertions.assertTrue(executorTarefa.agendaFoiRecebida());
+
+    }
+
+    @Test
+    @DisplayName("Disparar evento gladiador com pouca honra para agenda de evento nao sucedido com unidade de tempo igual a null")
+    public void dispararEventoGladiadorComPoucaHonraParaAgendaDeDisparoDeEventoComUnidadeDeTempoNulo() throws InterruptedException {
+
+        final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
+
+        final Agenda agendaComUnidadeTempoNula = new AgendaParaTeste(2, null);
+
+        final FilaDeEventos filaDeEventos =
+                FilaDeEventosFabricasImplementacao
+                        .criar(executorTarefa)
+                        .agendaParaDispararEvento(agendaComUnidadeTempoNula)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
+                        .log(logParaTeste)
+                        .construir();
+
+        final Gladiador gladiador = new Gladiador(1, 10, 100);
+
+        final EventoChamadaGladiador eventoChamadaGladiador = new EventoChamadaGladiador(logParaTeste);
+
+        filaDeEventos.disparar(gladiador, eventoChamadaGladiador);
+
+        executorTarefa
+                .esperarFinalizar();
+
+        Assertions.assertTrue(eventoChamadaGladiador.chamadoRecebido(), "evento deve ter sido chamado");
+
+        Assertions.assertTrue(executorTarefa.execucaoFoiRecebida());
+        Assertions.assertTrue(executorTarefa.agendaFoiRecebida());
+
+    }
+
+    @Test
+    @DisplayName("Disparar evento gladiador com pouca honra com agenda de disparo de evento")
+    public void dispararEventoGladiadorComPoucaHonraComAgendaDeDisparoDeEventoDemorada() throws InterruptedException {
+
+        final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
+
+        final FilaDeEventos filaDeEventos =
+                FilaDeEventosFabricasImplementacao
+                        .criar(executorTarefa)
+                        .agendaParaDispararEvento(new AgendaParaTeste(67, TimeUnit.MILLISECONDS))
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
+                        .log(logParaTeste)
+                        .construir();
+
+        final Gladiador gladiador = new Gladiador(1, 10, 100);
+
+        final EventoChamadaGladiador eventoChamadaGladiador = new EventoChamadaGladiador(logParaTeste);
+
+        filaDeEventos.disparar(gladiador, eventoChamadaGladiador);
+
+        executorTarefa
+                .esperarFinalizar();
+
+        Assertions.assertTrue(eventoChamadaGladiador.chamadoRecebido(), "evento deve ter sido chamado");
+
+        Assertions.assertTrue(executorTarefa.execucaoFoiRecebida());
+
+        Assertions.assertTrue(executorTarefa.agendaFoiRecebida());
+
+    }
+
+    @Test
     @DisplayName("Disparar evento sem agendamento")
     public void dispararEventoSemAgendamento() throws InterruptedException {
 
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
                         .log(logParaTeste)
                         .construir();
@@ -108,7 +293,7 @@ final class FilaDeEventosTest {
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
                         .construir();
 
@@ -138,10 +323,10 @@ final class FilaDeEventosTest {
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
                         .log(null)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .construir();
 
         final String mensagem = "";
@@ -166,7 +351,7 @@ final class FilaDeEventosTest {
     public void dispararEventoSemExecutor() throws InterruptedException {
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(null)
                         .log(logParaTeste)
                         .construir();
@@ -190,9 +375,9 @@ final class FilaDeEventosTest {
     public void dispararEventoSemExecutorComAgenda() throws InterruptedException {
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(null)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .log(logParaTeste)
                         .construir();
 
@@ -217,7 +402,7 @@ final class FilaDeEventosTest {
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
                         .log(logParaTeste)
                         .construir();
@@ -246,10 +431,10 @@ final class FilaDeEventosTest {
         final ExecutorParaTeste executorTarefa = new ExecutorParaTeste();
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorTarefa)
                         .log(logParaTeste)
-                        .agenda(null)
+                        .agendaParaEventoNaoSucedido(null)
                         .construir();
 
         final EventoChecagem eventoChecagem = new EventoChecagem(logParaTeste);
@@ -274,9 +459,9 @@ final class FilaDeEventosTest {
     public void dispararEventoComObjetoNulo() {
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(null)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .log(logParaTeste)
                         .construir();
 
@@ -292,9 +477,9 @@ final class FilaDeEventosTest {
     public void dispararEventoComEventoNulo() {
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(null)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .log(logParaTeste)
                         .construir();
 
@@ -328,9 +513,9 @@ final class FilaDeEventosTest {
         };
 
         final FilaDeEventos filaDeEventos =
-                FilaDeEventosFabricasPadrao
+                FilaDeEventosFabricasImplementacao
                         .criar(executorNulo)
-                        .agenda(agendaParaEventoNaoSucedido)
+                        .agendaParaEventoNaoSucedido(agendaParaEventoNaoSucedido)
                         .log(logParaTeste)
                         .construir();
 

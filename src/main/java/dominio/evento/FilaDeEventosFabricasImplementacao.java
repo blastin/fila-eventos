@@ -1,41 +1,58 @@
 package dominio.evento;
 
-import java.util.Optional;
+import dominio.anotacoes.ClasseAberta;
+
 import java.util.concurrent.TimeUnit;
 
-public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
+@ClasseAberta
+public class FilaDeEventosFabricasImplementacao implements FilaDeEventosFabrica {
 
     private final ExecutorEvento executorEventoProxy;
     private GerenciamentoDeFilaDeEventos gerenciamentoDeFilaDeEventos;
     private Agenda agendaParaEventoNaoSucedido;
+    private Agenda agendaParaDispararEvento;
 
-    private FilaDeEventosFabricasPadrao(final ExecutorEvento executorEvento) {
+    private FilaDeEventosFabricasImplementacao(final ExecutorEvento executorEvento) {
         executorEventoProxy = new ExecutorEventoProxy(executorEvento);
         gerenciamentoDeFilaDeEventos = new GerenciamentoDeFilaDeEventosWrapper(executorEventoProxy);
         agendaParaEventoNaoSucedido = new AgendaNulo();
+        agendaParaDispararEvento = null;
     }
 
     public static FilaDeEventosFabrica criar(final ExecutorEvento executorEvento) {
-        final ExecutorEvento executorEventoSeguro = Optional.ofNullable(executorEvento).orElse(new ExecutorEventoNulo());
-        return new FilaDeEventosFabricasPadrao(executorEventoSeguro);
+        final ExecutorEvento executorEventoSeguro = executorEvento == null ? new ExecutorEventoNulo() : executorEvento;
+        return new FilaDeEventosFabricasImplementacao(executorEventoSeguro);
     }
 
     @Override
     public FilaDeEventos construir() {
-        gerenciamentoDeFilaDeEventos.adicionarAgenda(new AgendaProxy(agendaParaEventoNaoSucedido));
+
+        gerenciamentoDeFilaDeEventos.adicionarAgendaParaEventoNaoSucedido(new AgendaProxy(agendaParaEventoNaoSucedido));
+
+        gerenciamentoDeFilaDeEventos.adicionarAgendaParaDispararEvento(agendaParaDispararEvento);
+
         return new FilaDeEventosProxy(gerenciamentoDeFilaDeEventos);
+
     }
 
     @Override
     public FilaDeEventosFabrica log(final LogEvento logEvento) {
-        final LogEvento logEventoSeguro = Optional.ofNullable(logEvento).orElse(new LogEventoNulo());
+        final LogEvento logEventoSeguro = logEvento == null ? new LogEventoNulo() : logEvento;
         gerenciamentoDeFilaDeEventos = new GerenciamentoDeFilaDeEventosLog(executorEventoProxy, logEventoSeguro);
         return this;
     }
 
     @Override
-    public FilaDeEventosFabrica agenda(final Agenda agendaParaEventoNaoSucedido) {
-        this.agendaParaEventoNaoSucedido = Optional.ofNullable(agendaParaEventoNaoSucedido).orElse(new AgendaNulo());
+    public FilaDeEventosFabrica agendaParaEventoNaoSucedido(final Agenda agendaParaEventoNaoSucedido) {
+        this.agendaParaEventoNaoSucedido = agendaParaEventoNaoSucedido == null ? new AgendaNulo() : new AgendaNulo();
+        return this;
+    }
+
+    @Override
+    public FilaDeEventosFabrica agendaParaDispararEvento(final Agenda agendaParaDispararEvento) {
+        if (agendaParaDispararEvento != null) {
+            this.agendaParaDispararEvento = new AgendaProxy(agendaParaDispararEvento);
+        }
         return this;
     }
 
@@ -68,5 +85,6 @@ public final class FilaDeEventosFabricasPadrao implements FilaDeEventosFabrica {
         public TimeUnit unidadeTempo() {
             return null;
         }
+
     }
 }
