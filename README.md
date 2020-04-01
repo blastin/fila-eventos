@@ -290,15 +290,18 @@ class Console {
         final Evento<String> evento = new EventoAlmoco(filaDeEventos, logEvento);
 
         filaDeEventos
+
             .disparar("Gladiador é o melhor filme do gênero", (objeto, __) -> logEvento.info(objeto, ""))
+            
             .disparar("Estou com muita fome", evento);
 
     }
     
     private static class EventoAlmoco implements Evento<String> {
     
-        private static final LocalTime ALMOCO = LocalTime.of(12, 30);
-        
+        private static final LocalTime ALMOCO_INICIO = LocalTime.of(12, 30);
+        private static final LocalTime ALMOCO_FIM = LocalTime.of(14, 30);
+
         private final FilaDeEventos filaDeEventos;
     
         private final LogEvento logEvento;
@@ -315,7 +318,7 @@ class Console {
         
             final LocalTime localTime = LocalTime.now();
 
-            if(localTime.isBefore(ALMOCO)){
+            if(localTime.isAfter(ALMOCO_INICIO) && localTime.isBefore(ALMOCO_FIM)){
 
                 eventoMalSucedido.notificar(objeto);
 
