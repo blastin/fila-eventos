@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    private final static LogEvento LOG_EVENTO = new LogTela();
+    private static final LogEvento LOG_EVENTO = new LogTela();
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -65,7 +65,7 @@ public class Main {
         };
 
         filaDeEventos
-                .disparar("The Smiths", (objeto, __) -> LOG_EVENTO.info(objeto, ""))
+                .disparar("The Smiths", (objeto, vs) -> LOG_EVENTO.info(objeto, ""))
                 .disparar("Legiao Urbana", (objeto, eventoMalSucedido) -> {
                     LOG_EVENTO.info("Modo funcional");
                     LOG_EVENTO.info(objeto);

@@ -44,7 +44,7 @@ public class FilaDeEventosFabricasImplementacao implements FilaDeEventosFabrica 
 
     @Override
     public FilaDeEventosFabrica agendaParaEventoNaoSucedido(final Agenda agendaParaEventoNaoSucedido) {
-        this.agendaParaEventoNaoSucedido = agendaParaEventoNaoSucedido == null ? new AgendaNulo() : new AgendaNulo();
+        this.agendaParaEventoNaoSucedido = agendaParaEventoNaoSucedido == null ? new AgendaNulo() : agendaParaEventoNaoSucedido;
         return this;
     }
 
@@ -66,10 +66,12 @@ public class FilaDeEventosFabricasImplementacao implements FilaDeEventosFabrica 
 
         @Override
         public void info(final String mensagem, final Object... argumentos) {
+            // Compartamento para info nulo
         }
 
         @Override
         public void error(final String mensagem, final Object... argumentos) {
+            // Compartamento para error nulo
         }
 
     }

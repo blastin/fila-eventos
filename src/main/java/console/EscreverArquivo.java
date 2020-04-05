@@ -26,11 +26,8 @@ final class EscreverArquivo implements Evento<Integer> {
 
         logEvento.info("salvando");
 
-        try {
-
-            final FileOutputStream fos = new FileOutputStream("D:\\projetos\\saida.txt");
-
-            final DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
+        try (final FileOutputStream fos = new FileOutputStream("D:\\projetos\\saida.txt");
+             final DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos))) {
 
             final PrimitiveIterator.OfInt iterator = IntStream.range(1, 200).iterator();
 
@@ -38,8 +35,6 @@ final class EscreverArquivo implements Evento<Integer> {
                 final int valor = objeto + iterator.next();
                 outStream.write(String.valueOf(valor).getBytes(Charset.defaultCharset()));
             }
-
-            outStream.close();
 
         } catch (IOException e) {
 
