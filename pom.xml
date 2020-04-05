@@ -6,7 +6,7 @@
 
     <groupId>br.projeto</groupId>
     <artifactId>fila-filaDeEventos</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <java.version>8</java.version>
