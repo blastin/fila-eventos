@@ -26,7 +26,7 @@ final class EscreverArquivo implements Evento<Integer> {
 
         logEvento.info("salvando");
 
-        try (final FileOutputStream fos = new FileOutputStream("D:\\projetos\\saida.txt");
+        try (final FileOutputStream fos = new FileOutputStream("/tmp/output.txt");
              final DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos))) {
 
             final PrimitiveIterator.OfInt iterator = IntStream.range(1, 200).iterator();
@@ -38,7 +38,7 @@ final class EscreverArquivo implements Evento<Integer> {
 
         } catch (IOException e) {
 
-            logEvento.error("deu ruimmmmmmmmmmmmmm");
+            logEvento.error("Não foi possível escrever informações no arquivo");
 
             eventoMalSucedido.notificar(objeto);
 
