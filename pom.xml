@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.projeto</groupId>
-    <artifactId>fila-filaDeEventos</artifactId>
+    <artifactId>fila-eventos</artifactId>
     <version>1.0</version>
 
     <properties>
