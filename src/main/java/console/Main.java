@@ -25,7 +25,7 @@ public class Main {
 
         final Agenda agendaDisparoDeEvento = new AgendaParaConsole(4, TimeUnit.SECONDS);
 
-        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasImplementacao.criar(executor);
+        final FilaDeEventosFabrica filaDeEventosFabrica = FilaDeEventosFabricasImpl.criar(executor);
 
         final FilaDeEventos filaDeEventos =
                 filaDeEventosFabrica

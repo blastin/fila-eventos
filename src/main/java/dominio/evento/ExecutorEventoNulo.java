@@ -1,5 +1,8 @@
 package dominio.evento;
 
+import dominio.anotacoes.ClasseAberta;
+
+@ClasseAberta
 class ExecutorEventoNulo implements ExecutorEvento {
 
     @Override

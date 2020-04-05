@@ -5,14 +5,14 @@ import dominio.anotacoes.ClasseAberta;
 import java.util.concurrent.TimeUnit;
 
 @ClasseAberta
-public class FilaDeEventosFabricasImplementacao implements FilaDeEventosFabrica {
+public class FilaDeEventosFabricasImpl implements FilaDeEventosFabrica {
 
     private final ExecutorEvento executorEventoProxy;
     private GerenciamentoDeFilaDeEventos gerenciamentoDeFilaDeEventos;
     private Agenda agendaParaEventoNaoSucedido;
     private Agenda agendaParaDispararEvento;
 
-    private FilaDeEventosFabricasImplementacao(final ExecutorEvento executorEvento) {
+    private FilaDeEventosFabricasImpl(final ExecutorEvento executorEvento) {
         executorEventoProxy = new ExecutorEventoProxy(executorEvento);
         gerenciamentoDeFilaDeEventos = new GerenciamentoDeFilaDeEventosWrapper(executorEventoProxy);
         agendaParaEventoNaoSucedido = new AgendaNulo();
@@ -21,7 +21,7 @@ public class FilaDeEventosFabricasImplementacao implements FilaDeEventosFabrica 
 
     public static FilaDeEventosFabrica criar(final ExecutorEvento executorEvento) {
         final ExecutorEvento executorEventoSeguro = executorEvento == null ? new ExecutorEventoNulo() : executorEvento;
-        return new FilaDeEventosFabricasImplementacao(executorEventoSeguro);
+        return new FilaDeEventosFabricasImpl(executorEventoSeguro);
     }
 
     @Override
@@ -66,12 +66,12 @@ public class FilaDeEventosFabricasImplementacao implements FilaDeEventosFabrica 
 
         @Override
         public void info(final String mensagem, final Object... argumentos) {
-            // Compartamento para info nulo
+            // Comportamento para info nulo
         }
 
         @Override
         public void error(final String mensagem, final Object... argumentos) {
-            // Compartamento para error nulo
+            // Comportamento para error nulo
         }
 
     }

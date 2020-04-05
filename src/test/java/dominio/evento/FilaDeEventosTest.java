@@ -16,7 +16,7 @@ final class FilaDeEventosTest {
     private final LogParaTeste logParaTeste = new LogParaTeste();
 
     private FilaDeEventosFabrica fabrica(final ExecutorEvento executor) {
-        return FilaDeEventosFabricasImplementacao
+        return FilaDeEventosFabricasImpl
                 .criar(executor);
     }
 
