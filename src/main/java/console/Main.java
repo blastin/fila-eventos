@@ -59,14 +59,14 @@ public class Main {
             if (i <= 3) {
                 LOG_EVENTO.info("entrei uma vez pois {}", i);
                 eventoMalSucedido.notificar(objeto.concat(String.valueOf(i)));
-                filaDeEventos.disparar("Tentanto novamente", LOG_EVENTO::info);
+                filaDeEventos.disparar("Nova tentativa", LOG_EVENTO::info);
             }
 
         };
 
         filaDeEventos
                 .disparar("The Smiths", (objeto, vs) -> LOG_EVENTO.info(objeto, ""))
-                .disparar("Legiao Urbana", (objeto, eventoMalSucedido) -> {
+                .disparar("Legião Urbana", (objeto, eventoMalSucedido) -> {
                     LOG_EVENTO.info("Modo funcional");
                     LOG_EVENTO.info(objeto);
                 })
