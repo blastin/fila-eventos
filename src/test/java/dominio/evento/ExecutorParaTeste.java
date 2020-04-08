@@ -17,13 +17,17 @@ final class ExecutorParaTeste implements ExecutorEvento {
 
     @Override
     public void agendar(final Runnable runnable, final Agenda agenda) {
-        try {
-            agendaRecebida = true;
-            agenda.unidadeTempo().sleep(agenda.tempo());
-            executar(runnable);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        agendaRecebida = true;
+        executar(() -> {
+            try {
+                agenda
+                        .unidadeTempo()
+                        .sleep(agenda.tempo());
+                runnable.run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     void esperarFinalizar() throws InterruptedException {
