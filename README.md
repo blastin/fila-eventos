@@ -259,7 +259,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-class Console {
+final class Console {
 
     public static void main(String[] args){
       

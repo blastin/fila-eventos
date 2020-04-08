@@ -1,11 +1,8 @@
 package dominio.evento;
 
-import dominio.anotacoes.ClasseAberta;
-
 import java.util.concurrent.TimeUnit;
 
-@ClasseAberta
-public class FilaDeEventosFabricasImpl implements FilaDeEventosFabrica {
+public final class FilaDeEventosFabricasImpl implements FilaDeEventosFabrica {
 
     private final ExecutorEvento executorEventoProxy;
     private GerenciamentoDeFilaDeEventos gerenciamentoDeFilaDeEventos;

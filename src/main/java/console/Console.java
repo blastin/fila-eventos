@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-public class Main {
+final class Console {
 
     private static final LogEvento LOG_EVENTO = new LogTela();
 
@@ -34,13 +34,13 @@ public class Main {
                         .agendaParaEventoNaoSucedido(agendaParaCasoNaoSucesso)
                         .construir();
 
-        new Main()
+        new Console()
                 .iniciar(filaDeEventos)
                 .finalizar(scheduledExecutorService);
 
     }
 
-    private Main iniciar(final FilaDeEventos filaDeEventos) {
+    private Console iniciar(final FilaDeEventos filaDeEventos) {
 
         final EscreverArquivo escreverArquivo = new EscreverArquivo(LOG_EVENTO);
 
@@ -83,7 +83,7 @@ public class Main {
 
     private void finalizar(final ExecutorService executorService) throws InterruptedException {
 
-        executorService.awaitTermination(16, TimeUnit.SECONDS);
+        executorService.awaitTermination(20, TimeUnit.SECONDS);
 
         executorService.shutdown();
 
