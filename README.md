@@ -20,8 +20,8 @@ Evento é a principal abstração do componente. Ele representa um comportamento
 Por ser uma interface genérica, será possível definir o tipo de objeto.
 
 ```java
-import dominio.evento.Evento;
-import dominio.evento.LogEvento;
+import Evento
+import LogEvento;
 import sql2o.*;
 
 final class EventoMudarStatusDeClienteParaInativo implements Evento<Cliente> {
@@ -76,14 +76,14 @@ Como por exemplo, uma instância [**SQL2o**](https://www.sql2o.org/) nula.
 ## Executor Evento
 
 **ExecutorEvento** é um wrapper necessário para encapsular a tecnologia que será utilizada para executar um evento.
-No projeto pode-se encontrar exemplos de executores em src/**test**/java ou src/main/java/**console**. 
+No projeto pode-se encontrar exemplos de executores em src/**test**/java ou src/main/java/**br.projeto.eventos.console**. 
 
 Threads podem ser utilizadas no caso de projetos que não precisam de um controle de execução de concorrência. Entretanto, caso seja necessário manter ativo uma **pool** de threads disponíveis, pode-se utilizar Executor do java.concorrent. 
 
 
 ```java
 import java.util.concurrent.ScheduledExecutorService;
-import dominio.evento.LogEvento;
+import LogEvento
 
 final class ExecutorThread implements ExecutorEvento {
 
@@ -121,7 +121,7 @@ Sua implementação pode enviar logs informativos da fila de evento para qualque
 
 ```java
 
-import dominio.evento.LogEvento;
+import LogEvento;
 
 final class LogConsole implements LogEvento {
 
@@ -166,7 +166,7 @@ final class LogConsole implements LogEvento {
 }
 ```
 
-No exemplo acima utilizamos **System::println*** para encaminhar log para o console. 
+No exemplo acima utilizamos **System::println*** para encaminhar log para o br.projeto.eventos.console. 
 Uma implementação interessante seria criar um **Wrapper** de uma biblioteca existente, como por exemplo, **sl4j**.
 
 ---
@@ -186,7 +186,7 @@ Existem dois momentos que agenda pode ser utilizada :
 
 ```java
 
-import dominio.evento.Agenda;
+import Agenda
 
 final class AgendaComum implements  Agenda {
 
@@ -224,9 +224,9 @@ Agora que os plugins e adaptadores foram apresentados, precisamos construir uma 
 
 ```java
 
-package dominio.evento;
+package br.projeto.eventos.dominio.evento;
 
-public interface FilaDeEventosFabrica {
+import Agenda;import LogEvento;public interface FilaDeEventosFabrica {
 
     FilaDeEventos construir();
 
@@ -247,15 +247,13 @@ Abaixo um exemplo de construção de uma fila de evento e disparo.
 
 ```java
 
-import dominio.evento.Evento;
-import dominio.evento.FilaDeEventos;
-import dominio.evento.LogEvento;
-import dominio.evento.ExecutorEvento;
+import Evento;
+import FilaDeEventos;
+import LogEvento
 
 import java.time.LocalTime;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
